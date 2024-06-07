@@ -1,5 +1,7 @@
 package com.hobom.memoapp.memo.service;
 
+import com.hobom.memoapp.memo.dto.MemoCreateRequestDto;
+import com.hobom.memoapp.memo.dto.MemoUpdateRequestDto;
 import com.hobom.memoapp.memo.entity.Memo;
 import com.hobom.memoapp.memo.repository.MemoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,10 @@ import java.util.Optional;
 public class MemoService {
 
     @Autowired
-    public MemoRepository memoRepository;
+    private MemoRepository memoRepository;
 
-    public Memo createOneMemo(String title, String contents) {
-        Memo createdMemo = new Memo(title, contents);
+    public Memo createOneMemo(MemoCreateRequestDto memoCreateRequestDto) {
+        Memo createdMemo = new Memo(memoCreateRequestDto.getTitle(), memoCreateRequestDto.getContents());
         return memoRepository.save(createdMemo);
     }
 
@@ -27,15 +29,15 @@ public class MemoService {
         return memoRepository.findAll();
     }
 
-    public Memo updateOneMemo(Long id, String title, String contents) {
+    public Memo updateOneMemo(Long id, MemoUpdateRequestDto memoUpdateRequestDto) {
         Memo foundMemo = getOneMemo(id);
-        foundMemo.update(title, contents);
+        foundMemo.update(memoUpdateRequestDto.getTitle(), memoUpdateRequestDto.getContents());
         return memoRepository.save(foundMemo);
     }
 
     // @Todo soft delete
-    public void deleteOneMemo(Long id) {
-        Memo foundMemo = this.getOneMemo(id);
+    public void removeOneMemo(Long id) {
+        this.getOneMemo(id);
         memoRepository.deleteById(id);
     }
 }
