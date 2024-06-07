@@ -4,11 +4,11 @@ import com.hobom.memoapp.memo.dto.MemoCreateRequestDto;
 import com.hobom.memoapp.memo.dto.MemoUpdateRequestDto;
 import com.hobom.memoapp.memo.entity.Memo;
 import com.hobom.memoapp.memo.repository.MemoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service("MemoService")
 public class MemoService {
@@ -22,11 +22,13 @@ public class MemoService {
     }
 
     public Memo getOneMemo(Long id) {
-        return memoRepository.findById(id).orElseThrow(() -> new NullPointerException("Memo not found"));
+        Memo foundMemo = memoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Memo not found"));
+        if(foundMemo.isDeleted()) throw new IllegalStateException("Memo has been already deleted.");
+        return foundMemo;
     }
 
     public List<Memo> getAllMemo() {
-        return memoRepository.findAll();
+        return memoRepository.findByDeletedIsFalse();
     }
 
     public Memo updateOneMemo(Long id, MemoUpdateRequestDto memoUpdateRequestDto) {
@@ -36,8 +38,9 @@ public class MemoService {
     }
 
     // @Todo soft delete
-    public void removeOneMemo(Long id) {
-        this.getOneMemo(id);
-        memoRepository.deleteById(id);
+    public Memo removeOneMemo(Long id) {
+        Memo foundMemo = getOneMemo(id);
+        foundMemo.setDeleted(true);
+        return memoRepository.save(foundMemo);
     }
 }

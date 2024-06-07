@@ -1,12 +1,13 @@
 package com.hobom.memoapp.memo.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class Memo {
     @Id
@@ -20,6 +21,9 @@ public class Memo {
     @Column(name = "contents")
     private String contents;
 
+    @Column(name = "deleted")
+    private Boolean deleted = false;
+
     public Memo(String title, String contents) {
         this.title = title;
         this.contents = contents;
@@ -28,5 +32,9 @@ public class Memo {
     public void update(String title, String contents) {
         this.title = title;
         this.contents = contents;
+    }
+
+    public Boolean isDeleted() {
+        return deleted;
     }
 }

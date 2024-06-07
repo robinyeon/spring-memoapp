@@ -1,4 +1,4 @@
-package com.hobom.memoapp.memo;
+package com.hobom.memoapp.memo.controller;
 
 import com.hobom.memoapp.memo.dto.MemoCreateRequestDto;
 import com.hobom.memoapp.memo.dto.MemoUpdateRequestDto;
@@ -52,8 +52,8 @@ public class MemoController {
      * 메모 삭제
      */
     @DeleteMapping("/{id}")
-    public void removeOneMemo(@PathVariable Long id) {
-        memoService.removeOneMemo(id);
+    public Memo removeOneMemo(@PathVariable Long id) {
+        return memoService.removeOneMemo(id);
     }
 
 }
