@@ -2,10 +2,12 @@ package com.hobom.memoapp.memo.dto;
 
 import com.hobom.memoapp.memo.entity.Memo;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public class MemoDto {
 
+    @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
@@ -16,14 +18,16 @@ public class MemoDto {
         }
     }
 
-
+    @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Request {
-        private Memo memo;
+        private String title;
+
+        private String contents;
 
         public Memo toEntity() {
-            return new Memo(memo.getTitle(), memo.getContents());
+            return new Memo(title, contents);
         }
     }
 }
