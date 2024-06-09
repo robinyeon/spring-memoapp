@@ -1,6 +1,8 @@
 package com.hobom.memoapp.memo.dto;
 
 import com.hobom.memoapp.memo.entity.Memo;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +24,10 @@ public class MemoDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Request {
+        @NotEmpty(message = "Memo title required.")
         private String title;
 
+        @NotEmpty(message = "Memo contents required.")
         private String contents;
 
         public Memo toEntity() {

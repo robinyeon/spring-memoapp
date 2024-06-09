@@ -3,12 +3,14 @@ package com.hobom.memoapp.memo.service;
 import com.hobom.memoapp.memo.dto.MemoDto;
 import com.hobom.memoapp.memo.entity.Memo;
 import com.hobom.memoapp.memo.repository.MemoRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
@@ -18,9 +20,16 @@ public class MemoServiceImpl implements MemoService {
     @Autowired
     private MemoRepository memoRepository;
 
+    /**
+     * @Todo
+     * 1. Test 코드 작성
+     */
     @Override
     @Transactional
     public MemoDto.Response createOneMemo(MemoDto.Request memoCreateRequestDto) {
+        if(getOneMemoByTitle(memoCreateRequestDto.getTitle())) {
+           throw new EntityExistsException("Same memo title already exists.");
+        }
         Memo createdMemo = memoRepository.save(memoCreateRequestDto.toEntity());
         return MemoDto.Response.from(createdMemo);
     }
@@ -56,5 +65,11 @@ public class MemoServiceImpl implements MemoService {
         Memo foundMemo = memoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Memo not found"));
         if (foundMemo.isDeleted()) throw new IllegalStateException("Memo has been already deleted.");
         return foundMemo;
+    }
+
+    private boolean getOneMemoByTitle(String title) {
+        Optional<Memo> foundMemo = memoRepository.findByTitle(title);
+        if(foundMemo.isEmpty()) return false;
+        return true;
     }
 }

@@ -1,8 +1,10 @@
 package com.hobom.memoapp.memo.controller;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.hobom.memoapp.memo.dto.MemoDto;
 import com.hobom.memoapp.memo.service.MemoService;
 import com.hobom.memoapp.url.Urls;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +16,9 @@ public class MemoController {
 
     @Autowired
     private MemoService memoService;
-
+    
     @PostMapping
-    public MemoDto.Response createOneMemo(@RequestBody MemoDto.Request memoCreateRequestDto) {
+    public MemoDto.Response createOneMemo(@RequestBody @Valid MemoDto.Request memoCreateRequestDto) {
         return memoService.createOneMemo(memoCreateRequestDto);
     }
 
@@ -31,7 +33,7 @@ public class MemoController {
     }
 
     @PatchMapping(Urls.MemoUrl.ID_PARAM)
-    public MemoDto.Response updateOneMemo(@PathVariable Long id, @RequestBody MemoDto.Request memoUpdateRequestDto) {
+    public MemoDto.Response updateOneMemo(@PathVariable Long id, @RequestBody @Valid MemoDto.Request memoUpdateRequestDto) {
         return memoService.updateOneMemo(id, memoUpdateRequestDto);
     }
 
