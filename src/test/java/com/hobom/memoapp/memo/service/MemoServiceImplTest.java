@@ -27,7 +27,7 @@ public class MemoServiceImplTest {
     MemoServiceImpl memoService;
 
     @Test
-    void 메모는_무조건_생성되어야_한다() {
+    void 메모_생성하기() {
         MemoDto.Request createRequestDto = new MemoDto.Request("타이틀", "콘텐츠");
         Memo memo = new Memo("타이틀", "콘텐츠");
 

@@ -22,7 +22,7 @@ public class Memo {
     private String contents;
 
     @Column(name = "deleted")
-    private Boolean deleted = false;
+    private boolean deleted = false;
 
     public Memo(String title, String contents) {
         this.title = title;
@@ -32,9 +32,5 @@ public class Memo {
     public void update(String title, String contents) {
         this.title = title;
         this.contents = contents;
-    }
-
-    public Boolean isDeleted() {
-        return deleted;
     }
 }

@@ -72,14 +72,10 @@ public class MemoServiceImpl implements MemoService {
         return foundMemo;
     }
 
-    private boolean getOneMemoByTitle(String title) {
-        Optional<Memo> foundMemo = memoRepository.findByTitle(title);
-
-        return foundMemo.isPresent();
-    }
-
     private void isTitleValid(MemoDto.Request requestDto) {
-        if (getOneMemoByTitle(requestDto.getTitle())) {
+        Optional<Memo> foundMemo = memoRepository.findByTitle(requestDto.getTitle());
+
+        if (foundMemo.isPresent()) {
             throw new EntityExistsException("Same memo title already exists.");
         }
     }
