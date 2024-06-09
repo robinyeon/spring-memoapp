@@ -20,10 +20,6 @@ public class MemoServiceImpl implements MemoService {
     @Autowired
     private MemoRepository memoRepository;
 
-    /**
-     * @Todo
-     * 1. Test 코드 작성
-     */
     @Override
     @Transactional
     public MemoDto.Response createOneMemo(MemoDto.Request memoCreateRequestDto) {
@@ -79,14 +75,12 @@ public class MemoServiceImpl implements MemoService {
     private boolean getOneMemoByTitle(String title) {
         Optional<Memo> foundMemo = memoRepository.findByTitle(title);
 
-        if(foundMemo.isEmpty()) return false;
-        return true;
+        return foundMemo.isPresent();
     }
 
-    private boolean isTitleValid(MemoDto.Request requestDto) {
-        if(getOneMemoByTitle(requestDto.getTitle())) {
+    private void isTitleValid(MemoDto.Request requestDto) {
+        if (getOneMemoByTitle(requestDto.getTitle())) {
             throw new EntityExistsException("Same memo title already exists.");
         }
-        return true;
     }
 }

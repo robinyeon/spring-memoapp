@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface MemoRepository extends JpaRepository<Memo, Long> {
     List<Memo> findByDeletedIsFalse();
+
     Optional<Memo> findByTitle(String title);
 }
 
