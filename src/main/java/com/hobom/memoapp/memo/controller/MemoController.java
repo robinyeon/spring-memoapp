@@ -16,7 +16,7 @@ public class MemoController {
 
     @Autowired
     private MemoService memoService;
-    
+
     @PostMapping
     public MemoDto.Response createOneMemo(@RequestBody @Valid MemoDto.Request memoCreateRequestDto) {
         return memoService.createOneMemo(memoCreateRequestDto);

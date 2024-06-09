@@ -27,16 +27,17 @@ public class MemoServiceImpl implements MemoService {
     @Override
     @Transactional
     public MemoDto.Response createOneMemo(MemoDto.Request memoCreateRequestDto) {
-        if(getOneMemoByTitle(memoCreateRequestDto.getTitle())) {
-           throw new EntityExistsException("Same memo title already exists.");
-        }
+        isTitleValid(memoCreateRequestDto);
+
         Memo createdMemo = memoRepository.save(memoCreateRequestDto.toEntity());
+
         return MemoDto.Response.from(createdMemo);
     }
 
     @Override
     public MemoDto.Response getOneMemo(Long id) {
         Memo foundMemo = getOneMemoById(id);
+
         return MemoDto.Response.from(foundMemo);
     }
 
@@ -48,8 +49,12 @@ public class MemoServiceImpl implements MemoService {
     @Override
     @Transactional
     public MemoDto.Response updateOneMemo(Long id, MemoDto.Request memoUpdateRequestDto) {
+        isTitleValid(memoUpdateRequestDto);
+
         Memo foundMemo = getOneMemoById(id);
+
         foundMemo.update(memoUpdateRequestDto.toEntity().getTitle(), memoUpdateRequestDto.toEntity().getContents());
+
         return MemoDto.Response.from(memoRepository.save(foundMemo));
     }
 
@@ -57,19 +62,31 @@ public class MemoServiceImpl implements MemoService {
     @Transactional
     public MemoDto.Response removeOneMemo(Long id) {
         Memo foundMemo = getOneMemoById(id);
+
         foundMemo.setDeleted(true);
+
         return MemoDto.Response.from(memoRepository.save(foundMemo));
     }
 
     private Memo getOneMemoById(Long id) {
         Memo foundMemo = memoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Memo not found"));
+
         if (foundMemo.isDeleted()) throw new IllegalStateException("Memo has been already deleted.");
+
         return foundMemo;
     }
 
     private boolean getOneMemoByTitle(String title) {
         Optional<Memo> foundMemo = memoRepository.findByTitle(title);
+
         if(foundMemo.isEmpty()) return false;
+        return true;
+    }
+
+    private boolean isTitleValid(MemoDto.Request requestDto) {
+        if(getOneMemoByTitle(requestDto.getTitle())) {
+            throw new EntityExistsException("Same memo title already exists.");
+        }
         return true;
     }
 }
