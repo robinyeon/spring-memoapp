@@ -6,6 +6,7 @@ import com.hobom.memoapp.memo.service.MemoService;
 import com.hobom.memoapp.url.Urls;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class MemoController {
         return memoService.createOneMemo(memoCreateRequestDto);
     }
 
-    @GetMapping(Urls.MemoUrl.ID_PARAM)
+    @GetMapping(Urls.ID_PARAM)
     public MemoDto.Response getOneMemo(@PathVariable Long id) {
         return memoService.getOneMemo(id);
     }
@@ -32,12 +33,12 @@ public class MemoController {
         return memoService.getAllMemo();
     }
 
-    @PatchMapping(Urls.MemoUrl.ID_PARAM)
+    @PatchMapping(Urls.ID_PARAM)
     public MemoDto.Response updateOneMemo(@PathVariable Long id, @RequestBody @Valid MemoDto.Request memoUpdateRequestDto) {
         return memoService.updateOneMemo(id, memoUpdateRequestDto);
     }
 
-    @DeleteMapping(Urls.MemoUrl.ID_PARAM)
+    @DeleteMapping(Urls.ID_PARAM)
     public MemoDto.Response removeOneMemo(@PathVariable Long id) {
         return memoService.removeOneMemo(id);
     }
