@@ -13,10 +13,16 @@ public class MemoDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
-        private Memo memo;
+        private Long id;
+
+        private String title;
+
+        private String contents;
+
+        private boolean deleted;
 
         public static Response from(Memo memo) {
-            return new Response(memo);
+            return new Response(memo.getId(), memo.getTitle(), memo.getContents(), memo.isDeleted());
         }
     }
 
