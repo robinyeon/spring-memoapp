@@ -49,9 +49,10 @@ public class MemoServiceImpl implements MemoService {
 
         isTitleValid(memoUpdateRequestDto.getTitle());
 
-        foundMemo.update(memoUpdateRequestDto.getTitle(), memoUpdateRequestDto.getContents());
+        foundMemo.setTitle(memoUpdateRequestDto.getTitle());
+        foundMemo.setContents(memoUpdateRequestDto.getContents());
 
-        return MemoDto.Response.from(memoRepository.save(foundMemo));
+        return MemoDto.Response.from(foundMemo);
     }
 
     @Override

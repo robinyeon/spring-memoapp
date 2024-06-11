@@ -3,6 +3,7 @@ package com.hobom.memoapp.user.controller;
 import com.hobom.memoapp.url.Urls;
 import com.hobom.memoapp.user.dto.UserDto;
 import com.hobom.memoapp.user.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public UserDto.Response createOneUser(@RequestBody UserDto.Request userCreateRequestDto) {
+    public UserDto.Response createOneUser(@RequestBody @Valid UserDto.Request userCreateRequestDto) {
         return userService.createOneUser(userCreateRequestDto);
     }
 
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PatchMapping(Urls.ID_PARAM)
-    public UserDto.Response updateOneUser(@PathVariable Long id, @RequestBody UserDto.Request userUpdateRequestDto) {
+    public UserDto.Response updateOneUser(@PathVariable Long id, @RequestBody @Valid UserDto.Request userUpdateRequestDto) {
         return userService.updateOneUser(id, userUpdateRequestDto);
     }
 

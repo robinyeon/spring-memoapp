@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "user")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,10 +23,6 @@ public class User {
     private boolean deleted = false;
 
     public User(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void update(String nickname) {
         this.nickname = nickname;
     }
 }

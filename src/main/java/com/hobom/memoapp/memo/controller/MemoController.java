@@ -1,12 +1,10 @@
 package com.hobom.memoapp.memo.controller;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.hobom.memoapp.memo.dto.MemoDto;
 import com.hobom.memoapp.memo.service.MemoService;
 import com.hobom.memoapp.url.Urls;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

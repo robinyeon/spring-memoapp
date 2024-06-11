@@ -7,17 +7,20 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Transactional(readOnly = true)
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
     @Override
+    @Transactional
     public UserDto.Response createOneUser(UserDto.Request userCreateRequestDto) {
         isNicknameValid(userCreateRequestDto.getNickname());
 
@@ -27,6 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto.Response getOneUser(Long id) {
         User foundUser = getOneUserById(id);
 
@@ -34,6 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<UserDto.Response> getAllUser() {
         List<User> users = userRepository.findAll();
 
@@ -41,17 +46,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto.Response updateOneUser(Long id, UserDto.Request userUpdateRequestDto) {
         User foundUser = getOneUserById(id);
 
         isNicknameValid(userUpdateRequestDto.getNickname());
 
-        foundUser.update(userUpdateRequestDto.getNickname());
+        foundUser.setNickname(userUpdateRequestDto.getNickname());
 
-        return UserDto.Response.from(userRepository.save(foundUser));
+        return UserDto.Response.from(foundUser);
     }
 
     @Override
+    @Transactional
     public UserDto.Response removeOneUser(Long id) {
         User foundUser = getOneUserById(id);
 

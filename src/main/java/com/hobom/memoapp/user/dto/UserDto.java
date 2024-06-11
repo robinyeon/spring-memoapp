@@ -1,6 +1,7 @@
 package com.hobom.memoapp.user.dto;
 
 import com.hobom.memoapp.user.entity.User;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,8 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Request {
+
+        @NotEmpty(message = "User nickname required.")
         private String nickname;
 
         public User toEntity() {
