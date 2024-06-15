@@ -78,10 +78,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private void isNicknameValid(String nickname) {
-        Optional<User> foundUser = userRepository.findByNickname(nickname);
-
-        if (foundUser.isPresent()) {
-            throw new EntityExistsException("Same nickname already exists");
-        }
+        userRepository.findByNickname(nickname).orElseThrow(() -> new EntityExistsException("Same nickname already exists"));
     }
 }
